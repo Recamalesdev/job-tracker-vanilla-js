@@ -1,0 +1,265 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #137fec;
+  --bg-dark: #101922;
+  --surface-dark: #1a2632;
+  --surface-border: #2c3b4b;
+  --text-main: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-interview: #f59e0b;
+  --accent-applied: #3b82f6;
+  --accent-rejected: #ef4444;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: var(--surface-dark);
+  border-right: 1px solid var(--surface-border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+#search-input {
+  background-color: var(--surface-dark);
+  padding: 12px 20px;
+  font-weight: bold;
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+}
+
+h2 {
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+ol {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+}
+
+form {
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+details {
+  background-color: var(--surface-dark);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+p {
+  line-height: 1.6;
+}
+
+fieldset {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--surface-border);
+  line-height: 1.6;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+legend {
+  color: var(--primary);
+  font-weight: bold;
+  padding-left: 0.1rem;
+}
+
+label {
+  font-weight: bold;
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 1rem;
+}
+
+.job-details {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Creamos 3 columnas iguales */
+  gap: 10px;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  background-color: var(--surface-dark);
+  color: var(--text-main);
+  border-radius: 10px;
+  border: 1px solid var(--surface-border);
+  font-weight: bold;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-applied);
+}
+
+::placeholder {
+  color: var(--text-main);
+}
+
+button {
+  background-color: var(--surface-dark);
+  color: var(--text-main);
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+button:hover {
+  background-color: var(--primary);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+select {
+  background-color: var(--surface-dark);
+  color: var(--text-main);
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  outline: solid 2px var(--surface-border);
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  flex: 1;
+}
+
+select:focus {
+  color: var(--text-main);
+  border: none;
+}
+
+.p-message {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 3rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+#counter-text {
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  background-color: var(--surface-border);
+  color: var(--text-main);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  outline: 1px solid var(--text-main);
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.job-card {
+  background-color: var(--surface-dark);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 24px;
+  padding-bottom: 10px;
+  transition: all 0.03s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.job-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.text-span {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.delete-btn {
+  align-self: flex-end;
+  background-color: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--accent-rejected);
+  padding: 8px 16px;
+  border-radius: 6px;
+
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--accent-rejected);
+}
+
+footer {
+  margin-top: auto;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+}
