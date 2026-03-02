@@ -1,6 +1,6 @@
 # 🚀 Job Application Tracker - Vanilla JS
 
-Este es mi primer proyecto de gestión de candidaturas laborales, construido con **JavaScript puro (Vanilla JS)**. El objetivo de esta aplicación es ayudar a desarrolladores a organizar sus postulaciones de forma eficiente y visual.
+Este es  un proyecto de gestión de candidaturas laborales, construido con **JavaScript puro (Vanilla JS)**. El objetivo de esta aplicación es ayudar a desarrolladores a organizar sus postulaciones de forma eficiente y visual.
 
 ## ✨ Características
 
