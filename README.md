@@ -23,4 +23,4 @@ Puedes ver la aplicación funcionando aquí:
 
 ---
 
-_Proyecto realizado para afianzar las bases de JavaScript antes de saltar a React._
+_Proyecto realizado para afianzar las bases de JavaScript._
