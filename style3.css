@@ -246,10 +246,28 @@ ul {
   color: var(--accent-rejected);
   padding: 8px 16px;
   border-radius: 6px;
-  
+
   cursor: pointer;
   font-size: 0.8rem;
   transition: all 0.2s ease;
+}
+
+.edit-btn {
+  align-self: flex-end;
+  background-color: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--accent-applied);
+  padding: 8px 16px;
+  border-radius: 6px;
+
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background-color: rgba(68, 88, 239, 0.1);
+  border-color: var(--accent-applied);
 }
 
 .delete-btn:hover {
