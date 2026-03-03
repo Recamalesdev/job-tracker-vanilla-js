@@ -6,7 +6,7 @@ const userRoleInput = document.getElementById("job-role");
 const jobStatusSelect = document.getElementById("job-status");
 const submitBtn = document.getElementById("submit-btn");
 const statusMessage = document.getElementById("status-message");
-const jobListUI = document.getElementById("job-list"); 
+const jobListUI = document.getElementById("job-list");
 const totalCount = document.getElementById("job-count");
 const searchInput = document.getElementById("search-input");
 
@@ -128,7 +128,7 @@ submitBtn.addEventListener("click", (event) => {
       return job;
     });
 
-    statusMessage.innerText = "✅ Aplicación actualizada.";
+    statusMessage.innerText = "✅ Empleo actualizado..";
     editingId = null; // Reset editing mode
     submitBtn.textContent = "Guardar";
     submitBtn.style.backgroundColor = "";
@@ -141,7 +141,7 @@ submitBtn.addEventListener("click", (event) => {
       status: jobStatusSelect.value,
     };
     jobsList = [...jobsList, newJob];
-    statusMessage.innerText = "✅ Aplicación guardada.";
+    statusMessage.innerText = "✅ Empleo guardado.";
   }
 
   saveAndRender();
@@ -159,7 +159,7 @@ searchInput.addEventListener("input", (event) => {
   const filtered = jobsList.filter(
     (job) =>
       job.company.toLowerCase().includes(query) ||
-      job.role.toLowerCase().includes(query)
+      job.role.toLowerCase().includes(query),
   );
   renderJobs(filtered);
 });
