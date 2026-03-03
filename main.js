@@ -110,24 +110,11 @@ submitBtn.addEventListener("click", (event) => {
 
   // Create new job object with a unique national identity card
   const newJob = {
-    id: Date.now(),
+    id: self.crypto.randomUUID(), // Generates a unique and unrepeatable ID such as: "123e4567-e89b-12d3-a456-426614174000"
     company: companyNameInput.value,
     role: userRoleInput.value,
     status: jobStatusSelect.value,
   };
-
-  searchInput.addEventListener("input", (event) => {
-    const searchText = event.target.value.toLowerCase();
-
-    const filterList = jobsList.filter((job) => {
-      return (
-        job.company.toLowerCase().includes(searchText) ||
-        job.role.toLowerCase().includes(searchText)
-      );
-    });
-
-    renderJobs(filterList);
-  });
 
   jobsList = [...jobsList, newJob]; // Save to memory
   localStorage.setItem("myJobs", JSON.stringify(jobsList)); // Persist to disk
@@ -139,4 +126,21 @@ submitBtn.addEventListener("click", (event) => {
   userRoleInput.value = "";
   jobStatusSelect.value = "1";
   clearMessage();
+});
+
+// A dedicated function for filtering logic
+const getFilteredJobs = (searchText) => {
+  const query = searchText.toLowerCase();
+  return jobsList.filter((job) => {
+    return (
+      job.company.toLowerCase().includes(query) ||
+      job.role.toLowerCase().includes(query)
+    );
+  });
+};
+
+// Simplified Event Listener
+searchInput.addEventListener("input", (event) => {
+  const filtered = getFilteredJobs(event.target.value);
+  renderJobs(filtered);
 });

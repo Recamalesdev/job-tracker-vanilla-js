@@ -1,26 +1,25 @@
 # 🚀 Job Application Tracker - Vanilla JS
 
-Este es mi primer proyecto de gestión de candidaturas laborales, construido con **JavaScript puro (Vanilla JS)**. El objetivo de esta aplicación es ayudar a desarrolladores a organizar sus postulaciones de forma eficiente y visual.
+Este es un proyecto de gestión de candidaturas laborales, construido con **JavaScript puro (Vanilla JS)** bajo principios de ingeniería de software.
 
-## ✨ Características
+## ✨ Características Técnicas (Refactorizadas)
 
-- **Persistencia de Datos:** Uso de `LocalStorage` para que tus datos no se borren al cerrar el navegador.
-- **Búsqueda en Tiempo Real:** Filtro dinámico por nombre de empresa o puesto de trabajo.
-- **Gestión de IDs Únicos:** Implementación de `Date.now()` para asegurar un borrado preciso sin errores de índice.
-- **Diseño Responsive:** Interfaz moderna tipo Dashboard utilizando **CSS Grid** y **Flexbox**.
-- **HTML Semántico:** Estructura optimizada para accesibilidad y SEO.
+- **Persistencia de Datos:** Uso de `LocalStorage` para garantizar la persistencia del estado de la aplicación.
+- **Arquitectura Desacoplada:** Lógica de filtrado separada del manejo de eventos (Separation of Concerns) para mejorar la mantenibilidad.
+- **Búsqueda Robusta:** Filtro dinámico con normalización de datos (case-insensitive) para una experiencia de usuario fluida.
+- **Seguridad en Identificadores:** Implementación de `self.crypto.randomUUID()` para asegurar IDs únicos universales y evitar colisiones de datos.
+- **Diseño Estructural:** Interfaz construida con CSS Grid y Flexbox, priorizando el rendimiento y la adaptabilidad.
 
 ## 🛠️ Tecnologías utilizadas
 
-- **HTML5:** Etiquetas semánticas (`<main>`, `<aside>`, `<section>`).
-- **CSS3:** Variables personalizadas, Grid Layout y diseño Dark Mode.
-- **JavaScript (ES6+):** Manipulación del DOM, Array Methods (`filter`, `forEach`), y Web Storage API.
+- **HTML5:** Etiquetas semánticas para una mejor accesibilidad.
+- **CSS3:** Variables globales (Custom Properties) y arquitectura Dark Mode.
+- **JavaScript (ES6+):** Gestión asíncrona, manipulación eficiente del DOM y algoritmos de filtrado.
 
 ## 🌐 Demo en Vivo
 
-Puedes ver la aplicación funcionando aquí:
 👉 [https://recamalesdev.github.io/job-tracker-vanilla-js/]
 
 ---
 
-_Proyecto realizado para afianzar las bases de JavaScript antes de saltar a React._
+_Proyecto enfocado en el aprendizaje profundo y la aplicación de fundamentos de ingeniería._
