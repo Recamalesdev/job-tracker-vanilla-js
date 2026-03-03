@@ -246,9 +246,9 @@ ul {
   color: var(--accent-rejected);
   padding: 8px 16px;
   border-radius: 6px;
-
+  
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: all 0.2s ease;
 }
 

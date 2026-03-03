@@ -1,91 +1,104 @@
 // ==========================================
-// 1. GLOBAL VARIABLES & STATE
+// 1. STATE & SELECTORS
 // ==========================================
 const companyNameInput = document.getElementById("company-name");
 const userRoleInput = document.getElementById("job-role");
 const jobStatusSelect = document.getElementById("job-status");
 const submitBtn = document.getElementById("submit-btn");
 const statusMessage = document.getElementById("status-message");
-const jobLisUI = document.getElementById("job-list");
+const jobListUI = document.getElementById("job-list"); 
 const totalCount = document.getElementById("job-count");
 const searchInput = document.getElementById("search-input");
 
-// Load jobs from local storage or initialize empty array
+// Editing state: stores the ID of the job being updated, or null if creating new
+let editingId = null;
 let jobsList = JSON.parse(localStorage.getItem("myJobs")) || [];
 
 // ==========================================
 // 2. HELPER FUNCTIONS
 // ==========================================
 
-// Clear status messages after 3 seconds
 const clearMessage = () => {
   setTimeout(() => {
     statusMessage.textContent = "";
   }, 3000);
 };
 
-// Render the jobs list to the DOM
+// UI Logic: Renders the provided list to the DOM
 const renderJobs = (list = jobsList) => {
-  // 1. Clear current UI list to prevent duplicates
-  jobLisUI.innerHTML = "";
-
+  jobListUI.innerHTML = "";
   totalCount.textContent = list.length;
 
-  // 2. Iterate over the jobs array
-  list.forEach((job, index) => {
-    // 3. MAIN CONTAINER: Create the <li> wrapper card
+  list.forEach((job) => {
     const li = document.createElement("li");
     li.classList.add("job-card");
 
-    // Map status value to readable string
+    // Status mapping for better UX
     let statusText = "";
-    if (job.status === "1") statusText = "Enviado";
-    if (job.status === "2") statusText = "Entrevista";
-    if (job.status === "3") statusText = "Rechazado";
+    if (job.status === "1") statusText = "Applied";
+    if (job.status === "2") statusText = "Interviewing";
+    if (job.status === "3") statusText = "Rejected";
 
-    // 4. TEXT: Create <div> for job details
     const text = document.createElement("div");
     text.classList.add("job-details");
     text.innerHTML = `
-  <span><strong>Empresa:</strong> ${job.company}</span>
-  <span><strong>Puesto:</strong> ${job.role}</span>
-  <span><strong>Estado:</strong> ${statusText}</span>
-`;
+      <span><strong>Company:</strong> ${job.company}</span>
+      <span><strong>Position:</strong> ${job.role}</span>
+      <span><strong>Status:</strong> ${statusText}</span>
+    `;
 
-    // 5. BUTTON: Create the delete button element
+    const actions = document.createElement("div");
+    actions.classList.add("actions");
+
+    const btnEdit = document.createElement("button");
+    btnEdit.textContent = "Editar";
+    btnEdit.classList.add("edit-btn");
+    btnEdit.addEventListener("click", () => prepareEdit(job.id));
+
     const btnDelete = document.createElement("button");
-    btnDelete.textContent = "❌";
+    btnDelete.textContent = "Eliminar";
     btnDelete.classList.add("delete-btn");
-
-    // 6. EVENT LISTENER: Attach click event
     btnDelete.addEventListener("click", () => deleteJob(job.id));
 
-    // 7. ASSEMBLY: Append text and button inside the <li> wrapper
-    li.appendChild(text);
-    li.appendChild(btnDelete);
+    actions.appendChild(btnEdit);
+    actions.appendChild(btnDelete);
 
-    // 8. DELIVERY: Mount the complete <li> to the <ul> in the DOM
-    jobLisUI.appendChild(li);
+    li.appendChild(text);
+    li.appendChild(actions);
+    jobListUI.appendChild(li);
   });
 };
 
-// Delete a job by index and update state
+// Populates inputs with existing data to enable editing
+const prepareEdit = (id) => {
+  const foundJob = jobsList.find((item) => item.id === id);
+  if (!foundJob) return;
+
+  companyNameInput.value = foundJob.company;
+  userRoleInput.value = foundJob.role;
+  jobStatusSelect.value = foundJob.status;
+
+  editingId = id; // Set editing mode
+
+  submitBtn.textContent = "Actualizar";
+  submitBtn.style.backgroundColor = "#fbbf24";
+};
+
 const deleteJob = (id) => {
-  // 1. Remove the item using its index
   jobsList = jobsList.filter((job) => job.id !== id);
+  saveAndRender();
+};
 
-  // 2. Update local storage to persist changes
+// Persistence & Synchronization
+const saveAndRender = () => {
   localStorage.setItem("myJobs", JSON.stringify(jobsList));
-
-  // 3. Re-render the UI with the updated list
-  searchInput.value = "";
   renderJobs();
 };
 
 // ==========================================
 // 3. INITIALIZATION
 // ==========================================
-renderJobs(); // Initial render on load
+renderJobs();
 
 // ==========================================
 // 4. EVENT LISTENERS
@@ -93,54 +106,60 @@ renderJobs(); // Initial render on load
 submitBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
-  // Guard Clause: Handle the error edge case first
-  if (
-    companyNameInput.value.trim() === "" ||
-    userRoleInput.value.trim() === ""
-  ) {
-    statusMessage.textContent = "📢 Por favor, escribe todos tus datos...";
+  // Basic validation
+  if (!companyNameInput.value.trim() || !userRoleInput.value.trim()) {
+    statusMessage.textContent = "📢 Please fill out all fields.";
     statusMessage.style.color = "red";
     clearMessage();
-    return; // Early return stops execution here. No 'else' block needed.
+    return;
   }
 
-  // Success scenario: This only runs if the inputs are valid
-  statusMessage.innerText = `✅  ${companyNameInput.value}, postulación guardada.`;
-  statusMessage.style.color = "#f1f5f9";
+  if (editingId) {
+    // --- UPDATE MODE ---
+    jobsList = jobsList.map((job) => {
+      if (job.id === editingId) {
+        return {
+          ...job,
+          company: companyNameInput.value,
+          role: userRoleInput.value,
+          status: jobStatusSelect.value,
+        };
+      }
+      return job;
+    });
 
-  // Create new job object with a unique national identity card
-  const newJob = {
-    id: self.crypto.randomUUID(), // Generates a unique and unrepeatable ID such as: "123e4567-e89b-12d3-a456-426614174000"
-    company: companyNameInput.value,
-    role: userRoleInput.value,
-    status: jobStatusSelect.value,
-  };
+    statusMessage.innerText = "✅ Aplicación actualizada.";
+    editingId = null; // Reset editing mode
+    submitBtn.textContent = "Guardar";
+    submitBtn.style.backgroundColor = "";
+  } else {
+    // --- CREATE MODE ---
+    const newJob = {
+      id: self.crypto.randomUUID(), // Pro way to generate unique IDs
+      company: companyNameInput.value,
+      role: userRoleInput.value,
+      status: jobStatusSelect.value,
+    };
+    jobsList = [...jobsList, newJob];
+    statusMessage.innerText = "✅ Aplicación guardada.";
+  }
 
-  jobsList = [...jobsList, newJob]; // Save to memory
-  localStorage.setItem("myJobs", JSON.stringify(jobsList)); // Persist to disk
+  saveAndRender();
 
-  renderJobs(); // Re-render UI
-
-  // Reset form inputs
+  // Clear form
   companyNameInput.value = "";
   userRoleInput.value = "";
   jobStatusSelect.value = "1";
   clearMessage();
 });
 
-// A dedicated function for filtering logic
-const getFilteredJobs = (searchText) => {
-  const query = searchText.toLowerCase();
-  return jobsList.filter((job) => {
-    return (
+// Search functionality
+searchInput.addEventListener("input", (event) => {
+  const query = event.target.value.toLowerCase();
+  const filtered = jobsList.filter(
+    (job) =>
       job.company.toLowerCase().includes(query) ||
       job.role.toLowerCase().includes(query)
-    );
-  });
-};
-
-// Simplified Event Listener
-searchInput.addEventListener("input", (event) => {
-  const filtered = getFilteredJobs(event.target.value);
+  );
   renderJobs(filtered);
 });
